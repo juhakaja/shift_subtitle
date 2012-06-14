@@ -1,8 +1,7 @@
-require 'minitest/autorun'
-require 'shift_subtitle'
+require 'spec_helper'
 
 describe ShiftSubtitle do
-  it 'must exist' do
-    ShiftSubtitle.new.must_be_kind_of ShiftSubtitle
+  it 'should be able to create an instance' do
+    ShiftSubtitle.new.should_not be_nil
   end
 end
