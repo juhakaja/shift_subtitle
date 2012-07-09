@@ -3,17 +3,17 @@ class Subtitle
 
   def initialize lineno, time_start, time_end, content
     @lineno = lineno
-    @time_start = maketime(time_start)
-    @time_end = maketime(time_end)
+    @time_start = maketime time_start
+    @time_end = maketime time_end
     @content = content
   end
 
   def time_start
-    @time_start.strftime("%H:%M:%S,%L")
+    @time_start.strftime "%H:%M:%S,%L"
   end
 
   def time_end
-    @time_end.strftime("%H:%M:%S,%L")
+    @time_end.strftime "%H:%M:%S,%L"
   end
 
   private
