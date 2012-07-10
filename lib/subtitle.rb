@@ -9,13 +9,11 @@ class Subtitle
   end
 
   def to_s
-    subs = <<-eos.gsub(/^ {6}/, '')
+    <<-eos.gsub(/^ {6}/, '')
       #{@lineno}
       #{time_start} --> #{time_end}
       #{@content}
     eos
-
-    subs
   end
 
   def time_start
@@ -41,11 +39,11 @@ class Subtitle
     h*60*60 + m*60 + s + ms/1000.0
   end
 
-  def float_to_time floatn
-    h = "%02d" % (floatn/3600).to_i
-    m = "%02d" % ((floatn/60) % 60).to_i
-    s = "%02d" % (floatn % 60).to_i
-    ms = ((floatn - floatn.to_i) * 1000).round
+  def float_to_time float
+    h = "%02d" % (float/3600).to_i
+    m = "%02d" % ((float/60) % 60).to_i
+    s = "%02d" % (float % 60).to_i
+    ms = ((float - float.to_i) * 1000).round
     "#{h}:#{m}:#{s},#{ms}"
   end
 end
