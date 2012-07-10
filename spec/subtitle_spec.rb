@@ -13,27 +13,29 @@ describe Subtitle do
   end
 
   it "should have private methods" do
-    subtitle.private_methods(false).sort.should == [:initialize, :basetime, :maketime].sort
+    subtitle.private_methods(false).sort.should == [:initialize, :time_to_float, :float_to_time].sort
   end
 
-  it "should have a basetime set to UTC 0" do
-    subtitle.send(:basetime).should == Time.at(0).utc
+  it "should have time_to_float which converts times to float" do
+    subtitle.send(:time_to_float,"01:31:51,210").should == 5511.21
+    subtitle.send(:time_to_float,"25:31:51,210").should == 91911.21
   end
 
-  it "should have maketime which adds time_start and end to basetime" do
-    subtitle.send(:maketime,"01:31:51,210").should == Time.at(01*60*60 + 31*60 + 51 + 210/1000.0)
+  it "should have float_to_time to convert float to time" do
+    subtitle.send(:float_to_time, 5511.21).should == "01:31:51,210"
+    subtitle.send(:float_to_time, 91911.21).should == "25:31:51,210"
   end
 
   it "should have line number" do
     subtitle.lineno.should == 645
   end
 
-  it "should have a instance variable @time_start and it should be Time" do
-    subtitle.instance_variable_get("@time_start").should be_an_instance_of Time
+  it "should have a instance variable @time_start and it should be Float" do
+    subtitle.instance_variable_get("@time_start").should be_an_instance_of Float
   end
 
-  it "should have a instance variable @time_start and it should be Time" do
-    subtitle.instance_variable_get("@time_start").should be_an_instance_of Time
+  it "should have a instance variable @time_start and it should be Float" do
+    subtitle.instance_variable_get("@time_start").should be_an_instance_of Float
   end
 
   it "should have time_start" do
@@ -44,7 +46,27 @@ describe Subtitle do
     subtitle.time_end.should == "01:31:54,893"
   end
 
+  it "should allow changing time_start" do
+    subtitle.time_start = "02:31:51,210"
+    subtitle.instance_variable_get("@time_start").should be_an_instance_of Float
+    subtitle.time_start.should == "02:31:51,210"
+  end
+
+  it "should allow changing time_end" do
+    subtitle.time_end = "02:31:54,893"
+    subtitle.instance_variable_get("@time_end").should be_an_instance_of Float
+    subtitle.time_end.should == "02:31:54,893"
+  end
+
   it "should have content" do
     subtitle.content.should == "the government is implementing a new policy..."
+  end
+
+  it "should have to_s that prints the subtitle" do
+    subtitle.to_s.should == <<-eos.gsub(/^ {6}/, '')
+      645
+      01:31:51,210 --> 01:31:54,893
+      the government is implementing a new policy...
+    eos
   end
 end
