@@ -24,6 +24,7 @@ describe Subtitle do
   it "should have float_to_time to convert float to time" do
     subtitle.send(:float_to_time, 5511.21).should == "01:31:51,210"
     subtitle.send(:float_to_time, 91911.21).should == "25:31:51,210"
+    subtitle.send(:float_to_time, 91911.01).should == "25:31:51,010"
   end
 
   it "should have line number" do
@@ -68,5 +69,20 @@ describe Subtitle do
       01:31:51,210 --> 01:31:54,893
       the government is implementing a new policy...
     eos
+  end
+
+  it "should shift time" do
+    subtitle.shift_time 0.250
+    subtitle.time_start.should == "01:31:51,460"
+    subtitle.time_end.should == "01:31:55,143"
+    subtitle.shift_time 8.550
+    subtitle.time_start.should == "01:32:00,010"
+    subtitle.time_end.should == "01:32:03,693"
+    subtitle.shift_time 24*60*60 + 30*60
+    subtitle.time_start.should == "26:02:00,010"
+    subtitle.time_end.should == "26:02:03,693"
+    subtitle.shift_time -2.500
+    subtitle.time_start.should == "26:01:57,510"
+    subtitle.time_end.should == "26:02:01,193"
   end
 end

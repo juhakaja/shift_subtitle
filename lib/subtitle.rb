@@ -32,6 +32,11 @@ class Subtitle
     @time_end = time_to_float ending
   end
 
+  def shift_time shift
+    @time_start += shift
+    @time_end += shift
+  end
+
   private
 
   def time_to_float time
@@ -43,7 +48,7 @@ class Subtitle
     h = "%02d" % (float/3600).to_i
     m = "%02d" % ((float/60) % 60).to_i
     s = "%02d" % (float % 60).to_i
-    ms = ((float - float.to_i) * 1000).round
+    ms = "%03d" % ((float - float.to_i) * 1000).round
     "#{h}:#{m}:#{s},#{ms}"
   end
 end
