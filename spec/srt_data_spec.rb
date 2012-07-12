@@ -16,4 +16,9 @@ describe SrtData do
   it "should have a blocks -array" do
     srt.blocks.should be_an_instance_of Array
   end
+
+  it "should return all subtitles if to_s" do
+    srt.blocks << ["foo", "bar"]
+    srt.to_s.should == ["foo", "bar"].join("\n")
+  end
 end

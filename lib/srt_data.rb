@@ -5,4 +5,8 @@ class SrtData
     @title = title
     @blocks = []
   end
+
+  def to_s
+    @blocks.join("\n")
+  end
 end
