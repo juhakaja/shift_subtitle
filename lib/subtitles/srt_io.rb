@@ -4,7 +4,10 @@ module SrtIO
 
     def initialize filename
       @filename = filename
-      @subtitle_container = []
+    end
+
+    def to_s
+      load_file
     end
 
     def load_file
@@ -16,12 +19,13 @@ module SrtIO
     end
   end
 
-
   class Writer
     attr_accessor :filename
 
     def initialize filename
       @filename = filename
+
+      dump(yield) if block_given?
     end
 
     def dump content

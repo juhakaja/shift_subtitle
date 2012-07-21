@@ -26,7 +26,12 @@ describe SrtIO::Reader do
     srt_reader.filename.should == filename
   end
 
-  it "should should return content blocks in array" do
+  it "should return content as to_s" do
+    File.stub(:read).with(filename).and_return content
+    srt_reader.to_s.should == content.chomp
+  end
+
+  it "should return content blocks in array" do
     File.stub(:read).with(filename).and_return content
     blocks = srt_reader.by_block
     blocks.should be_an_instance_of Array
