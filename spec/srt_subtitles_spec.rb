@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe SrtData do
+describe SrtSubtitles do
 
   let(:title) { "Foo Bar" }
-  let(:srt) { SrtData.new title }
+  let(:srt) { SrtSubtitles.new title }
 
   it "should be able to create an instance" do
     srt.should_not be_nil

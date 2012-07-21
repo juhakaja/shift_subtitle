@@ -1,26 +1,23 @@
 
-require 'lib/srt_reader'
-require 'lib/srt_data'
-require 'lib/subtitle'
-
+require 'lib/subtitles'
 
 def testing
   file = 'tmp/subtitles.srt'
 
-  content = SrtReader.new(file).by_block
+  content = SrtIO::Reader.new(file).by_block
 
-  srt_data = SrtData.new("my_subtitles")
+  srt_sub = SrtSubtitles.new("my_subtitles") do |srt_block|
+    content.each do |block| 
+      block = block.split("\n")
+      lineno = block[0]
+      time_start, time_end = block[1].split(" --> ")
+      content = block.drop(2).join("\n")
 
-  content.each do |block| 
-    block = block.split("\n")
-    lineno = block[0]
-    time_start, time_end = block[1].split(" --> ")
-    content = block.drop(2).join("\n")
+      subtitle = SrtBlock.new lineno, time_start, time_end, content
 
-    subtitle = Subtitle.new lineno, time_start, time_end, content
-
-    srt_data.blocks << subtitle
+      srt_block << subtitle
+    end
   end
 
-  return srt_data
+  return srt_sub
 end

@@ -1,4 +1,4 @@
-class Subtitle
+class SrtBlock
   attr_accessor :lineno, :time_start, :time_end, :content
 
   def initialize lineno, time_start, time_end, content
