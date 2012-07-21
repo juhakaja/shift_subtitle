@@ -15,4 +15,8 @@ class SrtSubtitles
   def <<(blocks)
     @blocks << blocks
   end
+
+  def shift_time shift
+    @blocks.each { |block| block.shift_time shift }
+  end
 end

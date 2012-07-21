@@ -21,4 +21,8 @@ describe SrtSubtitles do
     srt.blocks << ["foo", "bar"]
     srt.to_s.should == ["foo", "bar"].join("\n")
   end
+
+  it "should have a shift method" do
+    srt.shift_time 2.500
+  end
 end
