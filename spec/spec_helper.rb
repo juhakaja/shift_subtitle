@@ -1,3 +1,2 @@
-require_relative '../lib/subtitles/srt_subtitles'
-require_relative '../lib/subtitles/srt_block'
-require_relative '../lib/subtitles/srt_io'
+require_relative '../lib/subtitles'
+require_relative '../lib/float_time'
