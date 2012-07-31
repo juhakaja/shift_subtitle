@@ -1,14 +1,14 @@
 module SrtSubtitles
   class Block
-    attr_accessor :lineno, :time_start, :time_end, :content
+    attr_reader :lineno, :time_start, :time_end, :content
 
     include FloatTime
   
-    def initialize lineno, time_start, time_end, content
-      @lineno = lineno
-      @time_start = time_to_float time_start
-      @time_end = time_to_float time_end
-      @content = content
+    def initialize block
+      block = block.split "\n"
+      @lineno = block[0].to_i
+      @time_start, @time_end = block[1].split(" --> ").map { |b| time_to_float b }
+      @content = block.drop(2).join("\n")
     end
   
     def to_s
@@ -61,7 +61,7 @@ module SrtSubtitles
     end
 
     def add_block block
-      @blocks << Block.new(block[:lineno], block[:time_start], block[:time_end], block[:content])
+      @blocks << Block.new(block)
     end
   
     def shift_time shift

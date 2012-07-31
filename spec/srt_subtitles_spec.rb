@@ -8,7 +8,14 @@ describe SrtSubtitles do
     let(:time_start) { "01:31:51,210" }
     let(:time_end) { "01:31:54,893" }
     let(:content) { "the government is implementing a new policy..." }
-    let(:srt) { SrtSubtitles::Block.new lineno, time_start, time_end, content }
+    let(:block) {
+      <<-eos.gsub(/^ {8}/, '')
+        645
+        01:31:51,210 --> 01:31:54,893
+        the government is implementing a new policy...
+      eos
+    }
+    let(:srt) { SrtSubtitles::Block.new block }
   
     it "should be able to create an instance" do
       srt.should_not be_nil
