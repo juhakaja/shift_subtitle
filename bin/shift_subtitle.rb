@@ -29,15 +29,11 @@ optparse.parse!
 options[:input_file] = ARGV[0] or raise ArgumentError, "No input-file!"
 options[:output_file] = ARGV[1] or raise ArgumentError, "No output-file!"
 
-
-content = SrtIO::Reader.new(options[:input_file]).by_block
-
-srt = SrtSubtitles::Subs.new("my_subtitles") do |srt_block|
-  content.each { |block| srt_block.add_block block }
-end
-
-
 time = (options[:operation].to_s + options[:time].to_s.sub(/,/,".")).to_f
-srt.shift_time time
 
-SrtIO::Writer.new(options[:output_file]) { srt }
+
+SrtSubtitles::Subs.new("my_subtitles") do |subs|
+  subs.add_text File.read(options[:input_file])
+  subs.shift_time time
+  File.open(options[:output_file], 'w') { |f| f.puts subs }
+end
