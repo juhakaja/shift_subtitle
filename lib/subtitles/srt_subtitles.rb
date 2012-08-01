@@ -64,6 +64,10 @@ module SrtSubtitles
       @blocks << Block.new(block)
     end
   
+    def add_text text
+      text.split(/\n\n/).each { |block| add_block block }
+    end
+
     def shift_time shift
       @blocks.each { |block| block.shift_time shift }
     end

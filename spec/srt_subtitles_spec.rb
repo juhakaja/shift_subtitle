@@ -96,7 +96,14 @@ describe SrtSubtitles do
   
     let(:title) { "Foo Bar" }
     let(:srt) { SrtSubtitles::Subs.new title }
-  
+    let(:text) {
+      <<-eos.gsub(/^ {8}/, '')
+        645
+        01:31:51,210 --> 01:31:54,893
+        the government is implementing a new policy...
+      eos
+    }
+ 
     it "should be able to create an instance" do
       srt.should_not be_nil
     end
@@ -109,6 +116,18 @@ describe SrtSubtitles do
       srt.blocks.should be_an_instance_of Array
     end
   
+    it 'should have add_block' do
+      srt.blocks.count.should == 0
+      srt.add_block text
+      srt.blocks.count.should == 1
+    end
+
+    it 'should have add_text' do
+      srt.blocks.count.should == 0
+      srt.add_text text
+      srt.blocks.count.should == 1
+    end
+
     it "should return all subtitles if to_s" do
       srt.blocks << ["foo", "bar"]
       srt.to_s.should == ["foo", "bar"].join("\n")
